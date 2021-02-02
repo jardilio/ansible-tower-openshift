@@ -62,4 +62,4 @@ pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
 
 kubernetes_context=docker-desktop
 kubernetes_namespace=default
-kubernetes_image_pull_secrets=docker-registry
+kubernetes_image_pull_secrets=redhat-repo-creds
