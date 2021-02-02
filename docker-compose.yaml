@@ -1,0 +1,16 @@
+version: "3"
+services:
+
+  deploy:
+    image: ataas-installer:$INSTALLER_VERSION
+    build: .
+    # allow container to work with localhost on host for interacting with kubectl
+    network_mode: host
+    command: "-i ${INVENTORY_FILE}"
+    volumes: 
+      # expose local kubeconfig into the container
+      - ~/.kube/config:/root/.kube/config
+      # mount local directory so we don't need to keep building image for local testing
+      - ./ansible-tower-openshift-setup:/ansible-tower-openshift-setup
+      # mount local directory so we don't need to keep building image for local testing
+      - ./inventories:/inventories

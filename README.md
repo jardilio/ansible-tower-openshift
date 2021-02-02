@@ -1,0 +1,2 @@
+Reference: https://docs.ansible.com/ansible-tower/3.8.1/html/administration/openshift_configuration.html
+Source: https://releases.ansible.com/ansible-tower/setup_openshift/ansible-tower-openshift-setup-3.8.1-1.tar.gz

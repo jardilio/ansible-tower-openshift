@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "This will locally log into redhat registry, you will be required to create an account first if you haven't already."
+echo "Then your credential store will be linked from docker to kubernetes so its able to pull images from redhat registry."
+
+docker login registry.redhat.io 
+
+kubectl create secret generic regcred \
+    --from-file=.dockerconfigjson=${HOME}/.docker/config.json \
+    --type=kubernetes.io/dockerconfigjson
