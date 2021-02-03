@@ -1,16 +1,32 @@
 version: "3"
 services:
 
-  deploy:
-    image: ataas-installer:$INSTALLER_VERSION
-    build: .
+  ansible-tower-installer:
+    image: $REPO/ansible-tower-installer:$VERSION
+    build: 
+      context: docker/ansible-tower-installer
+      args:
+        VERSION: $VERSION
+        REPO: $REPO
     # allow container to work with localhost on host for interacting with kubectl
     network_mode: host
-    command: "-i ${INVENTORY_FILE}"
+    environment: 
+      INVENTORY_FILE: $INVENTORY_FILE
+      PLAYBOOK: $PLAYBOOK
     volumes: 
       # expose local kubeconfig into the container
       - ~/.kube/config:/root/.kube/config
       # mount local directory so we don't need to keep building image for local testing
-      - ./ansible-tower-openshift-setup:/ansible-tower-openshift-setup
-      # mount local directory so we don't need to keep building image for local testing
-      - ./inventories:/inventories
+      - ./:/ansible-tower-openshift-setup
+
+  ansible-tower:
+    image: $REPO/ansible-tower:$VERSION
+    build: docker/ansible-tower
+
+  redis:
+    image: $REPO/redis:$VERSION
+    build: docker/redis
+
+  postgresql:
+    image: $REPO/postgresql:$VERSION
+    build: docker/postgresql

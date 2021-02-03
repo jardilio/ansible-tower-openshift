@@ -161,8 +161,8 @@ spec:
             privileged: {{ web_security_context_privileged }}
 {% endif %}
 {% endif %}
-          image: "{{ kubernetes_awx_image }}:{{ kubernetes_awx_version }}"
-          imagePullPolicy: Always
+          image: "{{ kubernetes_awx_image }}"
+          imagePullPolicy: IfNotPresent
 {% if custom_ca_crt is defined %}
           lifecycle:
                 postStart:
@@ -272,10 +272,10 @@ spec:
             privileged: {{ task_security_context_privileged }}
 {% endif %}
 {% endif %}
-          image: "{{ kubernetes_awx_image }}:{{ kubernetes_awx_version }}"
+          image: "{{ kubernetes_awx_image }}"
           command:
             - /usr/bin/launch_awx_task.sh
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
 {% if custom_ca_crt is defined %}
           lifecycle:
                 postStart:
@@ -388,8 +388,8 @@ spec:
             runAsUser: {{ redis_security_context_user }}
 {% endif %}
 {% endif %}
-          image: {{ kubernetes_redis_image }}:{{ kubernetes_redis_image_tag }}
-          imagePullPolicy: Always
+          image: {{ kubernetes_redis_image }}
+          imagePullPolicy: IfNotPresent
           args: ["redis-server", "{{ kubernetes_redis_config_mount_path }}"]
           volumeMounts:
             - name: {{ kubernetes_deployment_name }}-redis-config

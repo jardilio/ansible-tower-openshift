@@ -4,10 +4,9 @@ tower_package_release: '1'
 
 kubernetes_deployment_name: ansible-tower
 
-kubernetes_awx_image: registry.redhat.io/ansible-tower-38/ansible-tower-rhel7
-kubernetes_awx_version: '3.8.1-1'
-kubernetes_postgresql_image: registry.access.redhat.com/rhscl/postgresql-10-rhel7
-kubernetes_redis_image: registry.redhat.io/rhscl/redis-5-rhel7
+kubernetes_awx_image: '{{ image_repo }}/ansible-tower:{{ image_version }}'
+kubernetes_postgresql_image: '{{ image_repo }}/postgresql:{{ image_version }}'
+kubernetes_redis_image: '{{ image_repo }}/redis:{{ image_version }}'
 kubernetes_redis_config_mount_path: "/etc/redis.conf"
 
 insights_url_base: "https://cloud.redhat.com"

@@ -109,7 +109,7 @@
           --values {{ values_file.path }} \
           stable/postgresql
       register: kubernetes_pg_activate
-      no_log: false
+      no_log: true
 
     - name: Remove tempfile
       file:

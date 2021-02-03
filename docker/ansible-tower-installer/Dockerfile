@@ -23,7 +23,16 @@ RUN curl -Lo helm.tar.gz https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz && \
 
 # TODO: Install oc prereq
 
-COPY ansible-tower-openshift-setup /ansible-tower-openshift-setup
+COPY . /ansible-tower-openshift-setup
 WORKDIR /ansible-tower-openshift-setup
 
-ENTRYPOINT [ "./setup_openshift.sh" ]
+ENV INVENTORY_FILE="./inventory/local-docker-desktop"
+ENV OPTIONS=""
+ENV PLAYBOOK="install.yaml"
+
+ARG REPO=""
+ENV REPO=$REPO
+ARG VERSION="latest"
+ENV VERSION=$VERSION
+
+ENTRYPOINT ansible-playbook -i "${INVENTORY_FILE}" -e image_repo=$REPO -e image_version=$VERSION -v $OPTIONS $PLAYBOOK
