@@ -30,6 +30,3 @@ services:
   postgresql:
     image: $REPO/postgresql:$VERSION
     build: docker/postgresql
-
-volumes:
-  jenkins_data:
