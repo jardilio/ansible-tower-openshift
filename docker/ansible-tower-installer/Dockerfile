@@ -1,14 +1,7 @@
-FROM ubuntu:xenial
-
-# Install common prereqs
-RUN apt update && apt install -y \
-    curl \
-    tar
-
-# Install ansible prereq
-RUN apt install -y software-properties-common && \
-    apt-add-repository --yes --update ppa:ansible/ansible && \
-    apt install -y ansible
+# FROM registry.redhat.io/rhel7/rhel
+FROM centos:7
+RUN yum install -y epel-release
+RUN yum install -y ansible
 
 # Install kubectl prereq
 RUN curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.19.3/bin/linux/amd64/kubectl && \
