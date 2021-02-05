@@ -1,7 +1,7 @@
 version: "3"
 services:
 
-  ansible-tower-installer:
+  install: &installer
     image: $REPO/ansible-tower-installer:$VERSION
     build: 
       context: docker/ansible-tower-installer
@@ -10,14 +10,21 @@ services:
         REPO: $REPO
     # allow container to work with localhost on host for interacting with kubectl
     network_mode: host
-    environment: 
+    environment: &installer-env
+      OPTIONS: $OPTIONS
       INVENTORY_FILE: $INVENTORY_FILE
-      PLAYBOOK: $PLAYBOOK
+      PLAYBOOK: install.yml
     volumes: 
       # expose local kubeconfig into the container
       - ~/.kube/config:/root/.kube/config
       # mount local directory so we don't need to keep building image for local testing
       - ./:/ansible-tower-openshift-setup
+
+  destroy:
+    <<: *installer
+    environment: 
+      <<: *installer-env
+      PLAYBOOK: destroy.yml
 
   ansible-tower:
     image: $REPO/ansible-tower:$VERSION

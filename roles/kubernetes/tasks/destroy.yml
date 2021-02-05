@@ -1,0 +1,63 @@
+---
+- include_tasks: openshift_auth.yml
+  when: openshift_host is defined
+
+- include_tasks: kubernetes_auth.yml
+  when: kubernetes_context is defined
+
+- name: Use kubectl or oc
+  set_fact:
+    kubectl_or_oc: "{{ openshift_oc_bin if openshift_oc_bin is defined else 'kubectl' }}"
+
+- name: Delete deployment
+  shell: |
+    {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} \
+      delete deployment {{ kubernetes_deployment_name }} --ignore-not-found
+
+- name: Delete management pod
+  shell: |
+    {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} \
+      delete pod {{ kubernetes_deployment_name }}-management --grace-period=0 --ignore-not-found
+
+- name: Delete web service
+  shell: |
+    {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} \
+      delete service {{ kubernetes_deployment_name }}-web-svc --ignore-not-found
+
+- name: Delete config configmap
+  shell: |
+    {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} \
+      delete configmap {{ kubernetes_deployment_name }}-config --ignore-not-found
+
+- name: Delete launch configmap
+  shell: |
+    {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} \
+      delete configmap {{ kubernetes_deployment_name }}-launch-awx --ignore-not-found
+
+- name: Delete supervisor configmap
+  shell: |
+    {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} \
+      delete configmap {{ kubernetes_deployment_name }}-supervisor-config --ignore-not-found
+
+- name: Delete tower secrets
+  shell: |
+    {{ kubectl_or_oc }} -n {{ kubernetes_namespace }} \
+      delete secret {{ kubernetes_deployment_name }}-secrets --ignore-not-found
+
+- name: Delete postgresql (Kubernetes)
+  shell: |
+    helm uninstall {{ kubernetes_deployment_name }}-postgresql \
+      --namespace {{ kubernetes_namespace }}
+  when:
+    - pg_hostname is not defined or pg_hostname == ''
+    - kubernetes_context is defined
+  ignore_errors: true
+
+- name: Delete postgresql (External)
+  shell: |
+    echo "TODO: Remove external database"
+  when:
+    - pg_hostname is defined and pg_hostname != ''
+  ignore_errors: true
+
+# TODO: delete database?
