@@ -32,6 +32,7 @@
 - name: Add privileged SCC to service account
   shell: |
     {{ openshift_oc_bin }} adm policy add-scc-to-user privileged system:serviceaccount:{{ openshift_project }}:awx
+  when: "awx_privileged_user == true"
 
 # https://github.com/openshift/origin/issues/19182#issuecomment-378233606
 # If oc version ever grows a -o json option, remove the following tasks

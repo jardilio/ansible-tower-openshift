@@ -59,3 +59,5 @@ ca_trust_bundle: "/etc/pki/tls/certs/ca-bundle.crt"
 container_groups_image: "ansible/ansible-runner"
 
 uwsgi_bash: "bash -c"
+
+awx_privileged_user: false
