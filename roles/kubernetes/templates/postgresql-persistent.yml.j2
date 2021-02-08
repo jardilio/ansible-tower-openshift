@@ -122,6 +122,9 @@ objects:
             timeoutSeconds: 1
           resources:
             limits:
+{% if pg_cpu_limit is defined %}
+              cpu: {{ pg_cpu_limit | string }}m
+{% endif %}
               memory: ${MEMORY_LIMIT}
           securityContext:
             capabilities: {}
