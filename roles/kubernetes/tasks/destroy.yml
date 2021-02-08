@@ -68,11 +68,4 @@
     - pg_hostname is defined and pg_hostname != ''
   ignore_errors: true
 
-- name: Delete postgresql (OpenShift)
-  shell: |
-    echo "TODO: Remove external database"
-  when:
-    - pg_hostname is defined and pg_hostname != ''
-  ignore_errors: true
-
 # TODO: delete database?
