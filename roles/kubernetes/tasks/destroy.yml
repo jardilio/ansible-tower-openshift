@@ -53,7 +53,22 @@
     - kubernetes_context is defined
   ignore_errors: true
 
+- name: Delete postgresql (OpenShift)
+  shell: |
+    {{ openshift_oc_bin }} delete dc postgresql
+  when:
+    - pg_hostname is not defined or pg_hostname == ''
+    - openshift_host is defined
+  ignore_errors: true
+
 - name: Delete postgresql (External)
+  shell: |
+    echo "TODO: Remove external database"
+  when:
+    - pg_hostname is defined and pg_hostname != ''
+  ignore_errors: true
+
+- name: Delete postgresql (OpenShift)
   shell: |
     echo "TODO: Remove external database"
   when:
