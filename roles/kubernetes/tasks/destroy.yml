@@ -53,9 +53,25 @@
     - kubernetes_context is defined
   ignore_errors: true
 
-- name: Delete postgresql (OpenShift)
+- name: Delete postgresql deployment config (OpenShift)
   shell: |
     {{ openshift_oc_bin }} delete dc postgresql
+  when:
+    - pg_hostname is not defined or pg_hostname == ''
+    - openshift_host is defined
+  ignore_errors: true
+
+- name: Delete postgresql secret (OpenShift)
+  shell: |
+    {{ openshift_oc_bin }} delete secret postgresql
+  when:
+    - pg_hostname is not defined or pg_hostname == ''
+    - openshift_host is defined
+  ignore_errors: true
+
+- name: Delete postgresql service (OpenShift)
+  shell: |
+    {{ openshift_oc_bin }} delete service postgresql
   when:
     - pg_hostname is not defined or pg_hostname == ''
     - openshift_host is defined
