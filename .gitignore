@@ -1,2 +1,3 @@
 ansible-tower-openshift-setup/inventory
 *.log
+inventory/private*
