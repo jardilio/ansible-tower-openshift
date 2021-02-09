@@ -21,10 +21,13 @@
 * Then run `docker-compose run --rm install` to test deployment to new target
 
 # Instructions for SDLC
-* Set `VERSION` to tag release
+* Set `VERSION` to tag release-candidate
 * Log into the required reposorities - `docker login registry.redhat.io`
 * Build image artifact locally - `docker-compose build`
+* Push image back to repository (if not running locally) - `docker-compose push`
 * Test deployment with local image - `docker-compose run --rm install`
 * Test removal of deployment - `docker-compose run --rm destroy`
-* Push image to repository to leverage for future deployments - `docker-compose push`
+* Set `VERSION` to tag release
+* Build image artifact locally with new tag - `docker-compose build`
+* Push image back to repository - `docker-compose push`
 * Run deployment to all targets - TODO
