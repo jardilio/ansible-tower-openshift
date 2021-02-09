@@ -61,3 +61,9 @@ container_groups_image: "ansible/ansible-runner"
 uwsgi_bash: "bash -c"
 
 awx_privileged_user: false
+
+management_cpu_limit: 500
+management_mem_limit: 1
+
+pg_cpu_limit: 500
+pg_mem_limit: 1
